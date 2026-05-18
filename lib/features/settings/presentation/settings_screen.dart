@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/data/app_providers.dart';
 import '../../../core/data/semantic_search_defaults.dart';
@@ -11,6 +12,13 @@ import '../../reader/application/verse_copy_formatter.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
+
+  static final Uri _githubUri =
+      Uri.parse('https://github.com/JosephWater/flipbible.git');
+  static final Uri _emailUri = Uri(
+    scheme: 'mailto',
+    path: '1213037975@qq.com',
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -490,9 +498,66 @@ class SettingsScreen extends ConsumerWidget {
               trailing: Chip(label: Text('右侧')),
             ),
           ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '关于',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '项目地址和联系方式。',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withValues(alpha: 0.72),
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.code_rounded),
+                    title: const Text('GitHub'),
+                    subtitle: const Text(
+                      'github.com/JosephWater/flipbible.git',
+                    ),
+                    trailing: const Icon(Icons.open_in_new_rounded),
+                    onTap: () => _openLink(context, _githubUri),
+                  ),
+                  const Divider(height: 12),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.email_outlined),
+                    title: const Text('联系我'),
+                    subtitle: const Text('1213037975@qq.com'),
+                    trailing: const Icon(Icons.open_in_new_rounded),
+                    onTap: () => _openLink(context, _emailUri),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _openLink(BuildContext context, Uri uri) async {
+    final launched = await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+    if (!launched && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open: ${uri.toString()}')),
+      );
+    }
   }
 }
 

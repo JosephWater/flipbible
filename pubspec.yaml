@@ -45,6 +45,7 @@ dependencies:
   google_fonts: ^8.1.0
   collection: ^1.19.1
   intl: ^0.20.2
+  url_launcher: ^6.3.2
   sqlite3_flutter_libs: ^0.5.42
 
 dev_dependencies:
