@@ -1,0 +1,9 @@
+{
+  "id": "builtin_cn_demo",
+  "title": "和合本圣经",
+  "language": "zh-CN",
+  "version": "2.0.0-cus",
+  "copyright": "和合本圣经属于公有领域，可自由使用。",
+  "hasSearchIndex": false,
+  "hasSemanticIndex": true
+}
