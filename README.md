@@ -2,9 +2,14 @@
 
 中文 | [English](#english)
 
-FlipBible 是一个基于 Flutter 的圣经阅读应用，支持离线阅读、目录跳转、最近阅读位置、长按多选复制，以及基于经文向量索引的语义搜索。
+FlipBible 是一个基于 Flutter 的圣经阅读应用，支持离线阅读、滑块一键目录跳转、最近阅读位置、单节经文的相似语义经文、多格式复制，以及基于经文向量索引的语义搜索。
 
 ## 中文
+
+### 软件使用说明
+
+* 滑块：按住卷滑块上下滑动选择书卷，左滑选中后手指不离开屏幕继续上下滑动选择章
+* 语义检索：由于现在的圣经向量库是用qwen的text-embedding-v4模型预构建打包进软件的，所以配置语义检索的时候也请用这个模型。
 
 ### 当前仓库说明
 
@@ -19,6 +24,8 @@ FlipBible 是一个基于 Flutter 的圣经阅读应用，支持离线阅读、�
 - 公开仓库不直接分发内置语义搜索密钥或完整打包资源。
 
 如果你只是想使用应用，请直接下载 Release 页面提供的 APK。
+
+如果想要自己构建并且需要builtin_content.sqlite，可以联系我。
 
 ### 从源码运行
 
@@ -49,20 +56,18 @@ assets/samples/
 flutter run
 ```
 
-### 构建公开版 APK
+### 构建 APK
 
-公开版构建时不要注入任何第三方 API Key，例如：
+构建时可以注入自己的API Key，例如：
 
 ```bash
 flutter build apk --release \
   --dart-define=FLIPBIBLE_EMBEDDING_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1 \
-  --dart-define=FLIPBIBLE_EMBEDDING_MODEL=text-embedding-v4
+  --dart-define=FLIPBIBLE_EMBEDDING_MODEL=text-embedding-v4 \
+  --dart-define=FLIPBIBLE_EMBEDDING_API_KEY=你的_API_KEY
 ```
 
-这类公开版 APK 不会内置语义搜索密钥。用户需要：
-
-- 手动填写自己的 API Key，或
-- 使用你后续提供的服务端代理方案
+但是有泄露apikey风险，所以推荐在软件内手动输入配置信息。
 
 ### 资源生成
 
@@ -71,83 +76,81 @@ flutter build apk --release \
 - `tool/precompute_semantic_assets.py`
 - `tool/build_sample_assets.py`
 
-### 开源注意事项
-
-- 不要把 `builtin_content.sqlite`、`.flipbible`、APK、AAB、ZIP 等大文件直接提交到 Git。
-- 不要把真实 API Key、签名文件、`.env`、`android/key.properties` 提交到仓库。
-- 如果某个密钥已经进入过公开 APK 或 Git 历史，应当视为已泄露并立即轮换。
+# 欢迎改进。
 
 ## English
 
-FlipBible is a Flutter-based Bible reader with offline reading, directory navigation, recent locations, long-press multi-select copy, and semantic search powered by precomputed verse vectors.
+FlipBible is a Flutter-based Bible reading app. It supports offline reading, one-click directory jumping via slider, reading history record, similar verse recommendation for single verses, multi-format text copying, and semantic search powered by verse vector indexing.
 
-### Public repository policy
+### User Guide
 
-This public repository contains source code only. The following large binary assets are intentionally excluded:
+- Slider: Press and slide the book slider up/down to select a book. After selection, slide left without lifting your finger, then continue sliding up/down to select a chapter.
+- Semantic Search: The pre-built Bible vector library bundled in the app is generated using Alibaba's text-embedding-v4 model. Please use this model when configuring semantic search.
+
+### Repository Notes
+
+This public repository contains only the source code and **does NOT include** the following large binary assets:
 
 - `assets/bundled/builtin_content.sqlite`
 - `assets/samples/*.flipbible`
 
-Reasons:
+This is for two reasons:
 
-- GitHub rejects files larger than 100 MB, and `builtin_content.sqlite` exceeds that limit.
-- The public repository should not directly ship private semantic-search credentials or full packaged assets.
+- GitHub enforces a 100MB file size limit, and `builtin_content.sqlite` exceeds this limit.
+- The public repository does not directly distribute built-in semantic search API keys or fully packaged resources.
 
-If you only want to use the app, download the APK from the Releases page.
+If you only want to use the app, please download the APK from the **Releases** page directly.
 
-### Run from source
+If you want to build from source and need the `builtin_content.sqlite` file, please contact me.
 
-1. Install Flutter and the required platform toolchains.
-2. Fetch dependencies:
+### Run from Source
 
-```bash
+1. Install Flutter and the development environment for your target platform.
+2. Clone the repository and install dependencies:
+
+运行
+
+```
 flutter pub get
 ```
 
-3. Provide the bundled content database:
+1. Prepare the built-in content database:
+   - Place your `builtin_content.sqlite` file in:
 
-- Put your own `builtin_content.sqlite` at:
-
-```text
+```
 assets/bundled/builtin_content.sqlite
 ```
 
-- If you also want sample import bundles, place `.flipbible` files in:
+- If you need sample import packages, place `.flipbible` files in:
 
-```text
+```
 assets/samples/
 ```
 
-4. Run the app:
+1. Run the app:
 
-```bash
+```
 flutter run
 ```
 
-### Build a public APK
+### Build APK
 
-Do not inject any third-party API key when building a public APK. Example:
+You can inject your own API Key during the build process:
 
-```bash
+```
 flutter build apk --release \
   --dart-define=FLIPBIBLE_EMBEDDING_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1 \
-  --dart-define=FLIPBIBLE_EMBEDDING_MODEL=text-embedding-v4
+  --dart-define=FLIPBIBLE_EMBEDDING_MODEL=text-embedding-v4 \
+  --dart-define=FLIPBIBLE_EMBEDDING_API_KEY=YOUR_API_KEY
 ```
 
-With this public build, semantic search will not include a bundled key. End users must either:
+**Warning**: There is a risk of API Key leakage. It is **highly recommended** to manually enter the configuration inside the app.
 
-- provide their own API key, or
-- use a future server-side proxy provided by you
+### Asset Generation
 
-### Asset generation
-
-The repository still includes local scripts for rebuilding data assets:
+The repository retains build and preprocessing scripts for regenerating data assets locally:
 
 - `tool/precompute_semantic_assets.py`
 - `tool/build_sample_assets.py`
 
-### Open-source safety notes
-
-- Do not commit `builtin_content.sqlite`, `.flipbible`, APK, AAB, or ZIP artifacts into Git.
-- Do not commit real API keys, signing files, `.env`, or `android/key.properties`.
-- If a secret was ever included in a public APK or Git history, treat it as compromised and rotate it immediately.
+# Welcome contributions.
