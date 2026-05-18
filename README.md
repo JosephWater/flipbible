@@ -7,7 +7,7 @@ FlipBible 是一个基于 Flutter 的圣经阅读应用，支持离线阅读、�
 ## 中文
 
 ### 软件使用说明
-[Download APK](https://github.com/JosephWater/flipbible/releases/download/bible/FlipBible.apk)
+[Download APK](https://github.com/JosephWater/flipbible/releases/download/bible/flipbible-public-arm64.apk)
 * 滑块：按住卷滑块上下滑动选择书卷，左滑选中后手指不离开屏幕继续上下滑动选择章
 * 语义检索：由于现在的圣经向量库是用qwen的text-embedding-v4模型预构建打包进软件的，所以配置语义检索的时候也请用这个模型。
 
@@ -23,7 +23,7 @@ FlipBible 是一个基于 Flutter 的圣经阅读应用，支持离线阅读、�
 - GitHub 对单文件大小有限制，`builtin_content.sqlite` 超过 100 MB。
 - 公开仓库不直接分发内置语义搜索密钥或完整打包资源。
 
-如果你只是想使用应用，请直接下载 Release 页面提供的 APK。[Download APK](https://github.com/JosephWater/flipbible/releases/download/bible/FlipBible.apk)
+如果你只是想使用应用，请直接下载 Release 页面提供的 APK。[Download APK](https://github.com/JosephWater/flipbible/releases/download/bible/flipbible-public-arm64.apk)
 
 如果想要自己构建并且需要builtin_content.sqlite，可以联系我。
 
