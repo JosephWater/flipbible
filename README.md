@@ -3,6 +3,8 @@
 中文 | [English](#english)
 
 FlipBible 是一个基于 Flutter 的圣经阅读应用，支持离线阅读、滑块一键目录跳转、最近阅读位置、单节经文的相似语义经文、多格式复制，以及基于经文向量索引的语义搜索。
+![image](https://github.com/JosephWater/flipbible/blob/main/flipbible%E4%BB%8B%E7%BB%8D.jpg)
+
 
 ## 中文
 
